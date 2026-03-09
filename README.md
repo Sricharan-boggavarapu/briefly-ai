@@ -1,39 +1,207 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Briefly AI – AI Text Summarizer & Resume Analyzer
 
-## Getting Started
+Briefly AI is a modern AI-powered web application that helps users quickly summarize long text and analyze resumes with AI feedback.
 
-First, run the development server:
+The platform leverages large language models to transform large information into concise insights and actionable suggestions.
 
-```bash
+🌐 Live Demo:
+
+https://briefly-ai-lyart.vercel.app
+
+📂 GitHub Repository:
+
+https://github.com/Sricharan-boggavarapu/briefly-ai
+✨ Features
+🧠 AI Text Summarization
+
+Convert long text into short, meaningful summaries
+
+Maintains key context
+
+Prevents hallucinated information using structured prompts
+
+📄 Resume Analyzer
+
+Upload a resume and receive AI feedback including:
+
+Resume Score (0–100)
+
+Strengths
+
+Weaknesses
+
+Suggestions for improvement
+
+ATS-style evaluation
+
+⚡ Interactive UI
+
+Dark theme modern interface
+
+Instant AI responses
+
+Copy summary button
+
+Download summary as text
+
+Resume upload support
+
+🛠 Tech Stack
+Technology	Purpose
+Next.js	Full-stack framework
+React	UI development
+Groq API	AI model inference
+Tailwind CSS	UI styling
+Vercel	Deployment
+GitHub	Version control
+🧠 How It Works
+Text Summarization Flow
+User Input Text
+      ↓
+Frontend (Next.js UI)
+      ↓
+API Route
+      ↓
+Groq AI Model
+      ↓
+Generated Summary
+      ↓
+Displayed to User
+Resume Analysis Flow
+Resume Upload
+      ↓
+Text Extraction
+      ↓
+Send Resume Text to AI
+      ↓
+AI Evaluation
+      ↓
+Score + Feedback
+📸 Screenshots
+Text Summarizer
+
+(Add screenshot here)
+
+Resume Analyzer
+
+(Add screenshot here)
+
+⚙️ Installation & Setup
+
+Clone the repository:
+
+git clone https://github.com/Sricharan-boggavarapu/briefly-ai.git
+
+Move into the project folder:
+
+cd briefly-ai
+
+Install dependencies:
+
+npm install
+🔑 Environment Variables
+
+Create a .env.local file in the root directory.
+
+Add your Groq API key:
+
+GROQ_API_KEY=your_groq_api_key_here
+▶️ Run the Project
+
+Start the development server:
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-**## Live Demo
+Open the browser:
 
-https://briefly-ai-lyart.vercel.app**
+http://localhost:3000
+🚀 Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project is deployed using Vercel.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Steps:
 
-## Learn More
+Push project to GitHub
 
-To learn more about Next.js, take a look at the following resources:
+Import repository in Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Add environment variable
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deploy
 
-## Deploy on Vercel
+Live project:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+https://briefly-ai-lyart.vercel.app
+🧪 Example Output
+Text Summary
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Input:
+
+Artificial intelligence is transforming industries by enabling machines to learn from data and automate tasks.
+
+Output:
+
+Artificial intelligence is transforming industries by enabling machines to learn from data and automate tasks efficiently.
+Resume Analysis
+Resume Score: 78/100
+
+Strengths
+• Good technical project descriptions
+• Strong programming skills
+
+Weaknesses
+• Lack of quantified achievements
+
+Suggestions
+• Add measurable results
+• Improve bullet formatting
+🔍 Challenges Faced
+
+During development several challenges were encountered:
+
+PDF parsing compatibility with Node environments
+
+AI hallucination in summaries
+
+Handling malformed PDF text encoding
+
+Optimizing prompts for reliable AI evaluation
+
+Solutions included:
+
+Prompt engineering
+
+Safe decoding logic
+
+Simplified text extraction pipeline
+
+📈 Future Improvements
+
+ATS keyword matching
+
+Resume formatting suggestions
+
+Multi-language summarization
+
+Authentication & user accounts
+
+Document summarization (PDF, DOCX)
+
+👨‍💻 Author
+
+Sricharan Boggavarapu
+
+GitHub:
+
+https://github.com/Sricharan-boggavarapu
+⭐ Support
+
+If you found this project useful, consider giving it a star on GitHub ⭐.
+
+📌 Project Highlights
+
+✔ AI Integration
+✔ Full-Stack Development
+✔ Real-World AI Application
+✔ Deployed Web App
+✔ Resume-Ready Portfolio Project
