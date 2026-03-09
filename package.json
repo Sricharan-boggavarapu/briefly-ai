@@ -9,12 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.96",
     "formidable": "^3.5.4",
     "groq-sdk": "^0.37.0",
     "lucide-react": "^0.577.0",
     "next": "16.1.6",
     "openai": "^6.27.0",
-    "pdf-parse": "^2.4.5",
+    "pdfjs-dist": "^5.5.207",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },

@@ -1,5 +1,7 @@
+export const runtime = "nodejs";
+
 import Groq from "groq-sdk";
-const pdf = require("pdf-parse");
+import * as pdfjs from "pdfjs-dist/legacy/build/pdf.mjs";
 
 export async function POST(req: Request) {
   try {
@@ -7,13 +9,21 @@ export async function POST(req: Request) {
     const file = formData.get("resume") as File;
 
     if (!file) {
-      return Response.json({ error: "No resume uploaded" }, { status: 400 });
+      return Response.json({ analysis: "No file uploaded." });
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const data = await pdf(buffer);
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
 
-    const resumeText = data.text;
+    let text = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+
+      const strings = content.items.map((item: any) => item.str);
+      text += strings.join(" ") + "\n";
+    }
 
     const groq = new Groq({
       apiKey: process.env.GROQ_API_KEY,
@@ -21,30 +31,31 @@ export async function POST(req: Request) {
 
     const completion = await groq.chat.completions.create({
       model: "llama-3.1-8b-instant",
+      temperature: 0.2,
       messages: [
         {
           role: "system",
-          content: "Analyze this resume briefly. Provide score out of 100 and 3 improvement suggestions."
+          content:
+            "You are a resume analyzer. Provide:\n1. Resume score out of 100\n2. Strengths\n3. Suggestions for improvement."
         },
         {
           role: "user",
-          content: resumeText,
-        },
-      ],
+          content: text
+        }
+      ]
     });
 
     const analysis = completion.choices[0]?.message?.content;
 
     return Response.json({
-      analysis: analysis || "No suggestions generated",
+      analysis: analysis || "No analysis generated."
     });
 
   } catch (error) {
     console.error(error);
 
-    return Response.json(
-      { error: "Resume analysis failed" },
-      { status: 500 }
-    );
+    return Response.json({
+      analysis: "Error analyzing resume."
+    });
   }
 }

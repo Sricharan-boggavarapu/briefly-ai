@@ -10,15 +10,16 @@ export async function POST(req: Request) {
 
     const completion = await groq.chat.completions.create({
       model: "llama-3.1-8b-instant",
+      temperature: 0.2,
      messages: [
   {
     role: "system",
     content:
-      "You are a text summarization tool. Always summarize the given text in 1-2 concise sentences. Do not ask questions or respond conversationally."
+      "You are a strict text summarization tool. Only summarize the provided text. Do not add new information, opinions, or assumptions. If information is not present in the text, do not mention it."
   },
   {
     role: "user",
-    content: text
+    content: `Summarize the following text accurately in 1-2 sentences:\n\n${text}`
   }
 ]
     });
