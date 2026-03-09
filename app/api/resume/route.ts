@@ -9,11 +9,15 @@ export async function POST(req: Request) {
     const file = formData.get("resume") as File;
 
     if (!file) {
-      return Response.json({ analysis: "No file uploaded." });
+      return Response.json({ analysis: "No resume uploaded." });
     }
 
     const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+
+    // Load PDF WITHOUT worker (important for Node)
+    const pdf = await pdfjs.getDocument({
+  data: arrayBuffer,
+} as any).promise;
 
     let text = "";
 
@@ -26,24 +30,37 @@ export async function POST(req: Request) {
     }
 
     const groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    });
+  apiKey: process.env.GROQ_API_KEY,
+});
 
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.1-8b-instant",
-      temperature: 0.2,
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a resume analyzer. Provide:\n1. Resume score out of 100\n2. Strengths\n3. Suggestions for improvement."
-        },
-        {
-          role: "user",
-          content: text
-        }
-      ]
-    });
+const completion = await groq.chat.completions.create({
+  model: "llama-3.1-8b-instant",
+  temperature: 0.2,
+  max_tokens: 500,
+  messages: [
+    {
+      role: "system",
+      content:
+        "You are an expert resume reviewer. Analyze the resume objectively based only on the provided text. Do not assume or invent missing information."
+    },
+    {
+      role: "user",
+      content: `
+Analyze the following resume and provide:
+
+1. Resume score out of 100
+2. Key strengths
+3. Areas for improvement
+4. Specific suggestions to improve the resume
+
+Only use information present in the resume text.
+
+Resume:
+${text}
+`
+    }
+  ]
+});
 
     const analysis = completion.choices[0]?.message?.content;
 
@@ -52,7 +69,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("Resume API error:", error);
 
     return Response.json({
       analysis: "Error analyzing resume."

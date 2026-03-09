@@ -28,7 +28,6 @@ export default function Home() {
       });
 
       const data = await res.json();
-
       setSummary(data.summary || "No summary generated.");
     } catch (err) {
       console.error(err);
@@ -41,6 +40,18 @@ export default function Home() {
   const clearText = () => {
     setText("");
     setSummary("");
+  };
+
+  const downloadSummary = () => {
+    const blob = new Blob([summary], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "summary.txt";
+    a.click();
+
+    URL.revokeObjectURL(url);
   };
 
   const analyzeResume = async (e: any) => {
@@ -60,7 +71,6 @@ export default function Home() {
       });
 
       const data = await res.json();
-
       setResumeResult(data.analysis || "No feedback generated.");
     } catch (err) {
       console.error(err);
@@ -116,7 +126,7 @@ export default function Home() {
             onChange={(e) => setText(e.target.value)}
           />
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 mb-4">
             <button
               onClick={summarizeText}
               className="bg-white text-black px-4 py-2 rounded hover:bg-gray-300 transition"
@@ -133,11 +143,28 @@ export default function Home() {
           </div>
 
           {summary && (
-            <div className="mt-6 bg-black p-4 rounded border border-gray-700">
+            <div className="mt-4 bg-black p-4 rounded border border-gray-700">
               <h3 className="font-semibold mb-2">Summary</h3>
-              <p className="text-gray-200 text-lg leading-relaxed whitespace-pre-line">
+
+              <p className="text-gray-200 text-lg leading-relaxed whitespace-pre-line mb-4">
                 {summary}
               </p>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => navigator.clipboard.writeText(summary)}
+                  className="bg-gray-700 px-3 py-1 rounded hover:bg-gray-600 transition"
+                >
+                  Copy
+                </button>
+
+                <button
+                  onClick={downloadSummary}
+                  className="bg-gray-700 px-3 py-1 rounded hover:bg-gray-600 transition"
+                >
+                  Download
+                </button>
+              </div>
             </div>
           )}
         </div>
